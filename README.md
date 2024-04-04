@@ -35,6 +35,8 @@ https://ac.nowcoder.com/acm/contest/18839
 
 #### 2. 牛客竞赛语法入门班选择结构习题
 
+https://ac.nowcoder.com/acm/contest/19304
+
 - 在地图中从 0,0 走到 a,b , 当然a + b 是最短的走法, 如果绕路, 要想在n 内走到, 那a + b 和n 肯定有相同的奇偶性
 - (四年一闰、百年不闰)、四百年又闰 `( (year % 4 == 0 && year % 100 != 0) || year % 400 == 0)`
 - Date 直接进行比较可以用 `after` 和 `before`
@@ -50,3 +52,11 @@ https://ac.nowcoder.com/acm/contest/18839
 - `Character.getNumericValue(at)` 可以直接将数字字符转为对应数字, 而不是ASCII 码
 - Java 如果只想操作某个指定位置的字符，可以先转成 StringBuffer
 - `String.valueOf()`  可以直接将数字转为字符串
+
+#### 3. 牛客竞赛语法入门班循环结构习题
+
+https://ac.nowcoder.com/acm/contest/19305
+
+- 数字金字塔: 用额外变量控制要输出的数
+- `Long.bitCount()`方法用于查找long类型给定参数[value]的2的补码二进制表示形式中的1的位数。`
+- 
