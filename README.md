@@ -59,4 +59,5 @@ https://ac.nowcoder.com/acm/contest/19305
 
 - 数字金字塔: 用额外变量控制要输出的数
 - `Long.bitCount()`方法用于查找long类型给定参数[value]的2的补码二进制表示形式中的1的位数。`
-- 
+- 判断n 是否是素数: 2 ~ n -1 这些数都不能整除n。也可以砍一半,  `i <= Math.sqrt(n)`
+- Java Int类型取值范围大概是 `10^9`
