@@ -61,3 +61,70 @@ https://ac.nowcoder.com/acm/contest/19305
 - `Long.bitCount()`方法用于查找long类型给定参数[value]的2的补码二进制表示形式中的1的位数。`
 - 判断n 是否是素数: 2 ~ n -1 这些数都不能整除n。也可以砍一半,  `i <= Math.sqrt(n)`
 - Java Int类型取值范围大概是 `10^9`
+- 感觉循环这一节非常多的题就是得数学好
+
+#### 4. 牛客竞赛语法入门班数组字符串习题
+
+https://ac.nowcoder.com/acm/contest/19306
+
+- 计算方差的函数
+
+````
+    /**
+     * 计算方差的函数
+     */
+    public static double calVariance(double[] numbers) {
+
+        int n = numbers.length;
+
+        double mean = 0.0;
+
+        for (double x : numbers) {
+            mean += x;
+        }
+
+        mean /= n;
+
+        double variance = 0;
+        for (double x : numbers) {
+
+            variance += (x - mean) * (x - mean);
+        }
+
+        variance /= n;
+
+        return variance;
+    }
+```` 
+
+- 约瑟夫环的规律解法:
+````
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt(); // n个人
+        int k = in.nextInt(); // k 开始报数
+        int m = in.nextInt(); // m 出列
+
+        int p = 0;  // 假装指针
+
+        for (int i = 2; i <= n; i++) {
+
+            p = (p + m) % i;
+        }
+
+        System.out.println((p + k) % n); // 纯纯规律啊
+
+    }
+
+}
+
+````
+
+- 有时候不要把问题想的太复杂
+- 
