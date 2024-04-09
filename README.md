@@ -98,6 +98,7 @@ https://ac.nowcoder.com/acm/contest/19306
 ```` 
 
 - 约瑟夫环的规律解法:
+
 ````
 import java.util.Scanner;
 
@@ -136,4 +137,77 @@ public class Main {
 3. 其余的当前值 = 上一行当前列 + 上一行当前列左边那个值
 
 - Java 常用flag 用于条件判断跳出
-- 
+- Java使用StreamTokenizer 类快速读取int或long范围内的输入流
+  https://blog.csdn.net/qq_38874164/article/details/137173266
+- n阶方阵, 沿着相邻两条边中点, 中间封闭图形区域数字的和有规律
+
+````
+long n = in.nextLong();  // n阶方阵
+System.out.println(((n / 2) * (n + 1) + 1) * ((n / 2) * (n + 1) + 1));
+````
+
+- 等差数列前n项和公式:
+
+````
+①Sn=n*a1+n(n-1)d/2。 ②Sn=n(a1+an)/2
+````
+
+- 判断数独, HashSet 集合
+- `return;` 直接结束程序执行
+- Java比Scanner快的一种读入数据的方法: `BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));`
+
+
+- Java 回形数字矩阵
+
+````
+        while (num <= n * n) {
+
+            while (y < n && arr[x][y + 1] == 0) arr[x][++y] = num++;  // 往右走
+            while (x < n && arr[x + 1][y] == 0) arr[++x][y] = num++;  // 往下走
+            while (y > 1 && arr[x][y - 1] == 0) arr[x][--y] = num++;  // 往左走
+            while (x > 1 && arr[x - 1][y] == 0) arr[--x][y] = num++;  // 往上走
+
+        }
+````
+
+- Java 蛇形数字矩阵
+
+````
+        for (int i = 1; i <= 2 * n - 1; i++) {
+
+            int col = 1; // 列
+            int row = i; // 行
+
+            while (row >= 1) {
+
+                if (col <= n && row <= n) {
+
+                    if (i % 2 != 0) {  // 奇数行
+                        snakematrix[row][col] = cnt++;
+                    } else { // 偶数行
+
+                        snakematrix[col][row] = cnt++;
+                    }
+
+                }
+
+                row--;
+                col++;
+
+            }
+
+        }
+````
+
+- Java ACM 静态内部类, 实现比较接口
+- Comparable 接口中的 compareTo 方法实现:
+  如果调用对象小于比较对象，则返回负值 ; 如果调用对象等于比较对象，则返回0 ;如果调用对象大于比较对象，则返回正值
+
+````
+        @Override
+        public int compareTo(Point o) {
+            if (this.dis > o.dis) return 1;
+            else if (this.dis < o.dis) return -1;
+            else return 0;
+        }
+````
