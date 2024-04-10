@@ -371,3 +371,36 @@ public class Main {
 }
 
 ````
+
+#### 5. 牛客竞赛语法入门班函数与递归习题
+
+https://ac.nowcoder.com/acm/contest/19859
+
+- Java 根据年月生成当月所有日期:
+
+````
+    public static List<LocalDate> getAllDatesInMonth(int year, int month) {
+        List<LocalDate> dates = new ArrayList<>();
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+        LocalDate lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth());
+
+        // 使用日期范围来填充列表
+        for (LocalDate date = firstDayOfMonth; !date.isAfter(lastDayOfMonth); date = date.plusDays(1)) {
+            dates.add(date);
+        }
+
+        return dates;
+    }
+
+````
+
+- Java 大数: `BigInteger int1 = new BigInteger(num1);` 这是整数类
+- Java 大浮点数: `BigDecimal`
+
+- 使用数字包装类对字符串进行解析时，可以指定进制
+
+````
+Long num1 = Long.parseLong(m, n);
+````
+
+- Java 判断一个数是不是完全平方数: `Math.sqrt(n) % 1 == 0;`
