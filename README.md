@@ -211,3 +211,163 @@ System.out.println(((n / 2) * (n + 1) + 1) * ((n / 2) * (n + 1) + 1));
             else return 0;
         }
 ````
+
+- Java 直接查出子字符串的起始位置: `indexof()`
+- Java 字符串转小写: `toLowerCase()`
+- Character 类中有很多可以判断字符属性的方法
+- 可变字符串 → `StringBuilder`
+- 一道经典的字符模拟: `一元一次方程求解`
+
+````
+package ArrayAndString.ArrayAndString1043;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        String fangcheng = reader.readLine();
+
+        char weizhishu = ' '; // 未知数字符
+
+        /*
+        思路: 依次读入, 强行模拟
+         */
+
+        int f = 1; // 当前项的正负号, 初始 1
+        int now = 1; // 当前项的系数, 初始 1
+        int k = 0;  // 未知数的系数, 初始 0
+        int b = 0; // 常数项
+        int x = 0;  // 正在构建的数字
+        boolean r = false; // 是否正在构建数字【读取到数字】
+
+        for (int i = 0; i < fangcheng.length(); i++) {
+
+            char c = fangcheng.charAt(i);
+
+            if (c == '-') {
+                b += now * f * x;  // 读到符号就结算一下之前的常数项
+                x = 0;
+                f = -1;
+                r = false;
+            } else if (c == '+') {
+                b += now * f * x; // 读到符号就结算
+                x = 0;
+                f = 1;
+                r = false;
+            } else if (c == '=') { // 到等号右边了
+                b += now * f * x;  // 结算
+                x = 0;
+                f = 1;
+                now = -1; // 等号右边都反一下
+                r = false;
+            } else if (Character.isLetter(c)) {
+
+                if (r) {  // 如果有正在读入的数字
+                    k += now * f * x;  // 未知数系数
+                    x = 0;  // 重置正在构建的数字
+                } else {
+                    k += now * f;  // 没有也要加
+                }
+
+                weizhishu = c;
+                r = false;
+
+            } else if (Character.isDigit(c)) {
+
+                x = x * 10 + c - '0';
+                r = true;  // 正在构建数字
+            }
+        }
+
+        // 最后归总一下常数项
+        b += now * f * x;
+
+        double ans = -b * 1.0 / k;
+
+        // 特判
+        if (ans == -0.0) {
+            ans = 0;
+        }
+
+
+        System.out.printf("%c=%.3f", weizhishu, ans);
+    }
+
+}
+
+````
+
+- 一道模拟译码题【字符串模拟】
+
+例如输入000021757511222，每五位编号对应于一个字符串
+
+编号00002对应字符串 aac
+
+编号17575对应字符串 zzz
+
+编号11222对应字符串 qpq
+
+故输出为 aaczzzqpq
+
+````
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+    public static String turn(String s) {
+
+        int n = Integer.parseInt(s);
+        int[] box = new int[4];
+
+        int index = 0;
+        while (n >= 26) { // 26进制
+
+            box[index] = n % 26;
+            n = n / 26;
+            index++;
+        }
+
+        box[index] = n % 26;
+        char[] ans = new char[3];
+
+        for (int i = 0; i < 3; i++) {
+            ans[i] = (char) ('a' + box[i]);
+        }
+
+        return ("" + ans[2] + ans[1] + ans[0]);
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        int T = Integer.parseInt(reader.readLine());
+
+        while (T-- != 0) {
+
+            int n = Integer.parseInt(reader.readLine());
+            String string = reader.readLine();
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < string.length(); i += 5) {
+
+                sb.append(turn(string.substring(i, i + 5)));
+            }
+
+            System.out.println(sb.toString());
+
+        }
+
+    }
+}
+
+````
