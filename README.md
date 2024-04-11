@@ -6,6 +6,8 @@
 - 类名必须为Main, 不能有任何包 package 信息【本地可以有, 提交不能有】
 - 用while 处理多个case
 
+### 一、牛客网学习
+
 #### 0. OJ在线编程常见输入输出练习场
 
 https://ac.nowcoder.com/acm/contest/5657
@@ -219,7 +221,7 @@ System.out.println(((n / 2) * (n + 1) + 1) * ((n / 2) * (n + 1) + 1));
 - 一道经典的字符模拟: `一元一次方程求解`
 
 ````
-package ArrayAndString.ArrayAndString1043;
+package NowCoder.ArrayAndString.ArrayAndString1043;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -448,7 +450,7 @@ Long num1 = Long.parseLong(m, n);
 
 - Java 已知先序和后序求中序
 ````
-package FunctionAndRecursion.O;
+package NowCoder.FunctionAndRecursion.O;
 
 import com.sun.jndi.cosnaming.CNCtx;
 
@@ -560,3 +562,176 @@ public class Solution {
 
 - 表达式求值那种题, 换python `eval()` 函数秒解
 
+> 总结, 这一部分后面的题都有难度, 有些Java 和 Python 都会超时
+
+### 二、厂子刷题
+
+#### 1. 华为
+
+##### 1.1 递归
+
+`LeetCode 70/112/509`
+
+- Java 根据二叉树的层序遍历数组【如果有null要用Integer】把这棵树给构建出来
+
+````
+    public static TreeNode buildTreeFromArray(Integer[] array) { // 使用队列把这棵树构建出来
+        if (array == null || array.length == 0 || array[0] == null) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(array[0]);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        for (int i = 1; i < array.length; i++) {
+            TreeNode parent = queue.peek();
+            if (parent == null) {
+                continue;
+            }
+
+            TreeNode newNode = null;
+            if (array[i] != null) {
+                newNode = new TreeNode(array[i]);
+                queue.offer(newNode);
+            }
+
+            if (i % 2 == 1) {
+                parent.left = newNode;
+            } else {
+                parent.right = newNode;
+                queue.poll(); // Move to the next level
+            }
+        }
+
+        return root;
+    }
+````
+
+- Java 根据数组构建链表
+
+````
+    private static ListNode buildLinkedList(int[] values) {  // 根据数组构建链表
+        ListNode dummy = new ListNode();
+        ListNode current = dummy;
+        for (int val : values) {
+            current.next = new ListNode(val);
+            current = current.next;
+        }
+        return dummy.next;
+    }
+````
+- LeetCode23 合并K个有序链表【Java ACM模式】
+````
+package Company.Huawei.DivideAndRule.LeetCode23;
+
+import java.util.List;
+
+/**
+ * 分治
+ */
+
+public class Main {
+
+    public static ListNode mergeKLists(ListNode[] lists) {
+
+        return merge(lists, 0, lists.length - 1);
+    }
+
+    public static ListNode merge(ListNode[] lists, int l, int r) {
+
+        if (l == r) return lists[l]; // 已经合并完了
+        if (l > r) return null;
+
+        int mid = (l + r) >> 1;
+        return mergeTwoLists(merge(lists, l, mid), merge(lists, mid + 1, r));
+
+    }
+
+    public static ListNode mergeTwoLists(ListNode a, ListNode b) { // 合并两个链表
+
+        if (a == null || b == null) return a != null ? a : b;
+
+        // 两个都不为空继续
+        ListNode head = new ListNode(0);
+        ListNode tail = head; // 尾结点也指着第一个
+        ListNode aPtr = a, bPtr = b;  // 分别指向a 、b链表
+
+        while (aPtr != null && bPtr != null) {  // 两个都不为空了说明遍历完了
+
+            if (aPtr.val < bPtr.val) {
+
+                tail.next = aPtr;
+                aPtr = aPtr.next;  // 继续读
+            } else {
+
+                tail.next = bPtr;
+                bPtr = bPtr.next;
+            }
+
+            tail = tail.next; // tail 也往后走一步
+        }
+
+        // 剩下的
+        tail.next = aPtr != null ? aPtr : bPtr;
+        return head.next;   // head没用
+    }
+
+    public static void printLinkedList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val + " ");
+            current = current.next;
+        }
+    }
+
+    private static ListNode buildLinkedList(int[] values) {  // 根据数组构建链表
+        ListNode dummy = new ListNode(); // 这个节点最后不会要的
+        ListNode current = dummy;
+        for (int val : values) {
+            current.next = new ListNode(val);
+            current = current.next;
+        }
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+
+        int[][] linkedlistarray = new int[][]{{1, 4, 5}, {1, 3, 4}, {2, 6}};
+
+        ListNode[] lists = new ListNode[linkedlistarray.length];
+
+        for (int i = 0; i < linkedlistarray.length; i++) {
+
+            ListNode node = buildLinkedList(linkedlistarray[i]);
+            lists[i] = node;
+        }
+
+        ListNode node = mergeKLists(lists);
+        printLinkedList(node);
+
+    }
+
+}
+
+/**
+ * 链表节点
+ */
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {
+    }
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+````
