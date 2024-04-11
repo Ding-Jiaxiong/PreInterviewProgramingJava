@@ -404,3 +404,159 @@ Long num1 = Long.parseLong(m, n);
 ````
 
 - Java 判断一个数是不是完全平方数: `Math.sqrt(n) % 1 == 0;`
+- Java 通过多边形顶点坐标直接计算多边形面积，格林公式
+````
+    public static double calArea(double[] x, double[] y) {
+
+        int n = x.length;
+        double area = 0.0;
+
+        for (int i = 0; i < n; i++) {
+
+            int j = (i + 1) % n;
+            area += x[i] * y[j] - x[j] * y[i];
+        }
+
+        area = Math.abs(area) / 2.0;
+
+        return area;
+    }
+````
+
+- Java 四舍五入保留整数 → `(int) Math.round(num)`
+
+- Java 已知中序和后序求先序
+
+````
+    public static void xianxu(String zhongxu, String houxu) {
+
+        char root = houxu.charAt(houxu.length() - 1);  // 根节点
+        System.out.print(root);
+
+        int index = zhongxu.indexOf(root);  // 根节点在中序遍历序列中的索引位置
+
+        if (index > 0) {
+            xianxu(zhongxu.substring(0, index), houxu.substring(0, index));
+        }
+
+        if (index < zhongxu.length() - 1) {
+            xianxu(zhongxu.substring(index + 1), houxu.substring(index, houxu.length() - 1));
+        }
+
+    }
+````
+
+- Java 已知先序和后序求中序
+````
+package FunctionAndRecursion.O;
+
+import com.sun.jndi.cosnaming.CNCtx;
+
+import java.util.Scanner;
+
+/*
+   左根右
+ */
+
+class Node {
+    int v;  // 节点值
+    Node ls, rs; // 左右子
+
+    public Node() {
+        v = -1;
+        ls = null;
+        rs = null;
+    }
+
+    public Node(int v, Node ls, Node rs) {
+        this.v = v;
+        this.ls = ls;
+        this.rs = rs;
+    }
+}
+
+
+public class Solution {
+
+    static int res[]; // 结果数组
+    static int cnt = 0;  // 节点数
+
+    static Node build(int l1, int r1, int l2, int r2, int[] pre, int[] suf) {
+        if (l1 > r1 || l2 > r2) return null;
+        Node nd = new Node();
+        nd.v = pre[l1];
+        int cnt = 0, p = r2;
+        while (--p >= l2 && l1 + 1 <= r1) {
+            if (pre[l1 + 1] == suf[p]) {
+                break;
+            } else {
+                cnt++;
+            }
+        }
+        nd.ls = build(l1 + 1, r1 - cnt, l2, r2 - cnt - 1, pre, suf);
+        nd.rs = cnt == 0 ? null : build(r1 - cnt + 1, r1, r2 - cnt, r2 - 1, pre, suf);
+        return nd;
+    }
+
+    static void inorder(Node node) {  // 中序遍历
+        if (node == null) return;
+        inorder(node.ls);
+        res[cnt++] = node.v;
+        inorder(node.rs);
+    }
+
+    public static int[] solve(int n, int[] pre, int[] suf) {
+
+        Node node = build(0, n - 1, 0, n - 1, pre, suf);
+        res = new int[n];
+
+        inorder(node);
+        return res;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+        int[] pre = new int[n];  // 先序遍历
+        int[] suf = new int[n];  // 后序遍历
+
+        for (int i = 0; i < n; i++) {
+            pre[i] = in.nextInt();
+        }
+
+        for (int i = 0; i < n; i++) {
+            suf[i] = in.nextInt();
+        }
+
+        int[] solve = solve(n, pre, suf);
+
+        for (int i : solve) {
+            System.out.print(i + " ");
+        }
+
+    }
+
+}
+
+````
+- Java 汉诺塔问题求解步数
+````
+    public static void hannuo(int n, char a, char b, char c) {
+
+        if (n == 1) ans += 2;
+        else {
+
+            hannuo(n - 1, a, b, c);
+            ans++;
+            hannuo(n - 1, c, a, b);
+            ans++;
+            hannuo(n - 1, b, a, c);
+
+        }
+    }
+````
+
+- 表达式求值那种题, 换python `eval()` 函数秒解
+
